@@ -14,17 +14,20 @@ def annotations_uploader(dataset: dl.Dataset):
     dataset.items.download(local_path=download_path, filters=filters)
     dataset.download_annotations(local_path=download_path, filters=filters)
 
-    text_files = pathlib.Path(download_path).rglob('*.txt')
-    for text_file in text_files:
+    text_filepaths = pathlib.Path(download_path).rglob('*.txt')
+    for text_filepath in text_filepaths:
+        # if "dancetrack0087" in str(text_filepath):
+        #     continue
+
         # Read annotations from text file
-        print(f"Processing file: {text_file}")
-        with open(text_file, 'r') as f:
+        print(f"Processing file: {text_filepath}")
+        with open(text_filepath, 'r') as f:
             annotations = f.readlines()
         annotations = [annotation.strip() for annotation in annotations]
         # print(f"Annotations: {annotations}")
 
         # Read images dir from annotations json file
-        text_file_json_filepath = str(text_file).replace('items', 'json')
+        text_file_json_filepath = str(text_filepath).replace('items', 'json')
         text_file_json_filepath = text_file_json_filepath.replace('.txt', '.json')
         with open(text_file_json_filepath, 'r') as f:
             text_file_json = json.load(f)
@@ -70,7 +73,7 @@ def annotations_uploader(dataset: dl.Dataset):
 def main():
     dl.setenv('rc')
     project = dl.projects.get(project_id="e43f3105-2de2-46a9-b3b8-5f9fcf405adc")
-    dataset = project.datasets.get(dataset_id="66e2a3807f87ec4cf2e5bf43")
+    dataset = project.datasets.get(dataset_id="66e296f67f87ec7d68e59bee")
 
     annotations_uploader(dataset=dataset)
 
