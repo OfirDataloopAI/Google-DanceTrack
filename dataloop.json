@@ -1,0 +1,88 @@
+{
+  "displayName": "DanceTrack",
+  "name": "dance-track",
+  "description": "A general videos dataset to get you familiarized with Dataloop's powerful studios",
+  "scope": "project",
+  "version": "0.0.1",
+  "codebase": {
+    "type": "git",
+    "gitUrl": "TODO",
+    "gitTag": "0.0.1"
+  },
+  "attributes": {
+    "Category": "Dataset",
+    "Hub": "Dataloop",
+    "Provider": "Google",
+    "Media Type": "Video",
+    "License": "TODO",
+    "Annotation Type": [
+      "Bounding Box"
+    ]
+  },
+  "metadata": {
+    "system": {
+      "systemCompute": true
+    }
+  },
+  "components": {
+    "computeConfigs": [
+      {
+        "name": "dataset-deploy",
+        "secrets": [],
+        "runtime": {
+          "podType": "regular-m",
+          "concurrency": 1,
+          "runnerImage": "gcr.io/viewo-g/piper/agent/cpu/datasets-torch:0.0.1",
+          "autoscaler": {
+            "type": "rabbitmq",
+            "minReplicas": 0,
+            "maxReplicas": 2,
+            "queueLength": 1000
+          },
+          "preemptible": false
+        }
+      }
+    ],
+    "modules": [
+      {
+        "name": "dataset-adapter",
+        "entryPoint": "dataset_loader.py",
+        "className": "DanceTrack",
+        "description": "Dataset adapter for Dataloop Example",
+        "initInputs": [],
+        "functions": [
+          {
+            "name": "upload_dataset",
+            "input": [
+              {
+                "type": "Dataset",
+                "name": "dataset",
+                "description": "Dataloop Dataset Entity"
+              },
+              {
+                "type": "String",
+                "name": "source",
+                "description": "Dataset source URL"
+              }
+            ],
+            "output": [],
+            "displayName": "upload_dataset",
+            "displayIcon": "",
+            "description": "function to upload dataset to Dataloop"
+          }
+        ]
+      }
+    ],
+    "datasets": [
+      {
+        "name": "Driving Videos Dataset",
+        "docs": "https://sites.google.com/view/dancetrackmot",
+        "source": "https://sites.google.com/view/dancetrackmot",
+        "invoke": {
+          "namespace": "dataset-adapter.upload_dataset"
+        },
+        "computeConfig": "dataset-deploy"
+      }
+    ]
+  }
+}
