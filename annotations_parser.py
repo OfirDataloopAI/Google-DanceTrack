@@ -16,9 +16,6 @@ def annotations_uploader(dataset: dl.Dataset):
 
     text_filepaths = pathlib.Path(download_path).rglob('*.txt')
     for text_filepath in text_filepaths:
-        # if "dancetrack0087" in str(text_filepath):
-        #     continue
-
         # Read annotations from text file
         print(f"Processing file: {text_filepath}")
         with open(text_filepath, 'r') as f:
@@ -71,6 +68,8 @@ def annotations_uploader(dataset: dl.Dataset):
 
 
 def main():
+    # Notice: The FPS of the videos is 20
+
     dl.setenv('rc')
     project = dl.projects.get(project_id="e43f3105-2de2-46a9-b3b8-5f9fcf405adc")
     dataset = project.datasets.get(dataset_id="66e296f67f87ec7d68e59bee")
