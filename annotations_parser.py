@@ -33,8 +33,9 @@ def annotations_uploader(dataset: dl.Dataset):
         # Get all video frames
         filters = dl.Filters()
         filters.add(field=dl.FiltersKnownFields.DIR, values=images_dir)
-        filters.sort_by(field=dl.FiltersKnownFields.FILENAME, value=dl.FiltersOrderByDirection.ASCENDING)
+        # filters.sort_by(field=dl.FiltersKnownFields.FILENAME, value=dl.FiltersOrderByDirection.ASCENDING)
         items = list(dataset.items.list(filters=filters).all())
+        items = sorted(items, key=lambda x: int(x.name.split('.')[0]))
 
         # Create annotation builders
         item_builders: [dl.AnnotationCollection] = list()
@@ -50,7 +51,8 @@ def annotations_uploader(dataset: dl.Dataset):
             bb_bottom = int(bb_top) + int(bb_height)
             bb_right = int(bb_left) + int(bb_width)
 
-            item_builders[int(frame) - 1].add(
+            builder_index = int(frame) - 1
+            item_builders[builder_index].add(
                 annotation_definition=dl.Box(
                     label="person",
                     top=bb_top,
