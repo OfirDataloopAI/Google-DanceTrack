@@ -14,7 +14,7 @@
     "Hub": "Dataloop",
     "Provider": "Google",
     "Media Type": "Video",
-    "License": "TODO",
+    "License": "MIT License",
     "Annotation Type": [
       "Bounding Box"
     ]
