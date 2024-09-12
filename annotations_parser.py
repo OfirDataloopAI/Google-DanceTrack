@@ -66,8 +66,6 @@ def annotations_uploader(dataset: dl.Dataset):
         for builder in tqdm(item_builders):
             builder.upload()
 
-            exit()
-
 
 def main():
     dl.setenv('rc')
