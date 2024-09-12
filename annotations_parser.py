@@ -47,18 +47,16 @@ def annotations_uploader(dataset: dl.Dataset):
         for annotation in annotations:
             # Annotation format: <frame>, <id>, <bb_left>, <bb_top>, <bb_width>, <bb_height>, 1, 1, 1
             frame, object_id, bb_left, bb_top, bb_width, bb_height, _, _, _ = annotation.split(',')
-            top = bb_top - (bb_height // 2)
-            left = bb_left - (bb_width // 2)
-            bottom = bb_top + (bb_height // 2)
-            right = bb_left + (bb_width // 2)
+            bb_bottom = int(bb_top) + int(bb_height)
+            bb_right = int(bb_left) + int(bb_width)
 
             item_builders[int(frame) - 1].add(
                 annotation_definition=dl.Box(
                     label="person",
-                    top=top,
-                    left=left,
-                    bottom=bottom,
-                    right=right
+                    top=bb_top,
+                    left=bb_left,
+                    bottom=bb_bottom,
+                    right=bb_right
                 ),
                 object_id=object_id
             )
