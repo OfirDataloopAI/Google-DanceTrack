@@ -73,7 +73,7 @@ class DanceTrack(dl.BaseServiceRunner):
                 item_metadata.update({"system": {"tags": tags_metadata}})
 
             # Construct item remote path
-            remote_path = f"/{item_file.parent.stem}"
+            remote_path = "/"
 
             uploads.append(dict(local_path=str(item_file),
                                 local_annotations_path=str(annotation_file),
@@ -97,7 +97,7 @@ class DanceTrack(dl.BaseServiceRunner):
 
 
 def test_dataset_import():
-    dataset_id = "66e15902b9cad897eb6259b9"
+    dataset_id = "66e2f3342cd374501e6fceb3"
 
     dataset = dl.datasets.get(dataset_id=dataset_id)
     sr = DanceTrack()
@@ -105,7 +105,7 @@ def test_dataset_import():
 
 
 def main():
-    dl.setenv('prod')
+    dl.setenv('rc')
     test_dataset_import()
 
 
